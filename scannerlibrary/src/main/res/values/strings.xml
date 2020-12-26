@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">bridgetLibrary</string>
+
+    <!--扫码枪-->
+    <string name="yl_scanner_path">/dev/ttyS2</string>
+    <integer name="yl_scanner_baudrate">115200</integer>
+
+    <string name="data_error">数据有误！</string>
+</resources>
