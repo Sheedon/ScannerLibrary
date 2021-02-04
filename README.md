@@ -59,35 +59,7 @@ dependencies {
 #### 1. Init Library
 
 ```java
-// 射频读卡片类型：RS/RFID默认版本
-// 端口号
-// 波特率
-// 初始化结果监听
-SensorFactory.init(SensorConstant.TYPE_RS485, SensorConstant.PORT, 9600, new InitializeListener() {
-			// 初始化完成		
-  		@Override
-      public void OnInitializeComplete() {
-                
-      }
-
-  		// 射频读卡片类型
-      @Override
-      public int onSensorType() {
-           return SensorConstant.TYPE_RS485;
-      }
-
-  		// 端口号
-      @Override
-      public String onPort() {
-           return "/dev/ttyS1";
-      }
-
-  		// 波特率
-      @Override
-      public int onBaudRate() {
-           return 9600;
-      }
-});
+ScannerFactory.init(this);
 ```
 
 
@@ -96,40 +68,29 @@ SensorFactory.init(SensorConstant.TYPE_RS485, SensorConstant.PORT, 9600, new Ini
 
 ```java
 // 获取读卡控制中心
-CardReaderCenter readerCenter = SensorFactory.getCardReaderCenter();
+ScannerCenter center = ScannerFactory.getScannerCenter();
 
-// 绑定异常
-readerCenter.bindException(new OnExceptionListener() {
+center.addListener(new OnScannerListener() {
+    /**
+     * 扫码枪反馈内容
+     * @param code 读卡信息 
+     */
      @Override
-     public void onException(boolean isException) {
-     			// 是否异常
+     public void onScanResult(String code) {
+                
+     }
+
+     /**
+      * 扫码枪是否故障
+      * @param isAlarm 是否故障 
+      */
+     @Override
+     public void onScanAlarm(boolean isAlarm) {
+
      }
 });
 
-// 添加读卡监听
-readerCenter.addListener(new OnCardReaderListener() {
-     
-  	 /**
-      * 读卡信息
-      * @param lblNum 卡片编号 
-      * @param isContinuousSend 是否是连续发送
-      */
-      @Override
-      public void onCardInfo(String lblNum, boolean isContinuousSend) {
-					// do something
-      }
-
-      /**
-       * 读卡器是否正常
-       * @param isNormal 是否正常
-       */
-      @Override
-      public void onCardIsNormal(boolean isNormal) {
-					// do something
-      }
-});
-
 // 离开页面
-readerCenter.removeListener(this);
+center.removeListener(this);
 ```
 
